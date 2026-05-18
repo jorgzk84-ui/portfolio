@@ -17,7 +17,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237c5cfc'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter%2Csans-serif' font-size='12' font-weight='900' fill='white'%3EJK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&family=Bebas+Neue&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -115,42 +115,59 @@ nav.scrolled{padding:.8rem 4rem;background:rgba(7,8,15,0.92)}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
 
 h1.hero-title{
-  font-size:clamp(3rem,6.5vw,5.5rem);
-  font-weight:900;line-height:1.05;
-  letter-spacing:-.02em;
   margin-bottom:1.5rem;
-  animation:fadein .7s .1s ease both;
+  line-height:1;
 }
 .hero-title .line1{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(3.5rem,7.5vw,6.5rem);
-  letter-spacing:.06em;
-  color:#fff;
-  line-height:1;
+  font-family:'Syne',sans-serif;
+  font-size:clamp(.85rem,1.6vw,1rem);
+  font-weight:600;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:var(--accent2);
   display:block;
+  margin-bottom:.9rem;
+  opacity:0;
+  animation:revealUp .6s .25s cubic-bezier(.22,1,.36,1) forwards;
 }
 .hero-title .line2{
-  font-family:'Pacifico',cursive;
-  font-size:clamp(2.8rem,6vw,5.2rem);
-  font-weight:400;
-  letter-spacing:.01em;
-  line-height:1.15;
+  font-family:'Syne',sans-serif;
+  font-size:clamp(4rem,9vw,8.5rem);
+  font-weight:800;
+  letter-spacing:-.04em;
+  line-height:.95;
   display:block;
-  background:linear-gradient(120deg,var(--accent2) 0%,#c4b5fd 50%,var(--accent2) 100%);
-  background-size:200% auto;
+  background:linear-gradient(110deg,#fff 0%,#c4b5fd 45%,var(--accent) 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:shimmer 4s linear infinite;
+  opacity:0;
+  animation:revealBlur .9s .55s cubic-bezier(.22,1,.36,1) forwards;
+  position:relative;
 }
-@keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+.hero-title .line2::after{
+  content:'';display:block;height:3px;width:0;margin-top:.4rem;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),transparent);
+  border-radius:2px;
+  animation:drawLine .7s 1.55s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes revealUp{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes revealBlur{
+  from{opacity:0;transform:translateY(36px);filter:blur(10px)}
+  to{opacity:1;transform:translateY(0);filter:blur(0)}
+}
+@keyframes drawLine{to{width:55%}}
 
 .hero-bio{
   font-size:1.05rem;color:var(--muted);
   max-width:540px;line-height:1.8;
   margin-bottom:2.5rem;
-  animation:fadein .8s .2s ease both;
+  opacity:0;
+  animation:revealUp .7s 1.4s cubic-bezier(.22,1,.36,1) forwards;
 }
 
-.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3.5rem;animation:fadein .8s .3s ease both}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3.5rem;opacity:0;animation:revealUp .7s 1.65s cubic-bezier(.22,1,.36,1) forwards}
 
 .btn-primary{
   background:linear-gradient(135deg,var(--accent),#5b21b6);
@@ -173,7 +190,8 @@ h1.hero-title{
 .hero-stats{
   display:flex;gap:2.5rem;flex-wrap:wrap;
   padding-top:2.25rem;border-top:1px solid var(--border);
-  animation:fadein .9s .4s ease both;
+  opacity:0;
+  animation:revealUp .7s 1.9s cubic-bezier(.22,1,.36,1) forwards;
 }
 .stat{}
 .stat-num{font-size:1.75rem;font-weight:900;color:var(--accent2);letter-spacing:-.04em;line-height:1}
@@ -467,8 +485,8 @@ footer a{color:var(--accent2);text-decoration:none}
   <div class="hero-left">
     <div class="badge"><span class="badge-dot"></span> Available for commissions</div>
     <h1 class="hero-title">
-      <span class="line1">Roblox</span>
-      <span class="line2">Scripter.</span>
+      <span class="line1">Roblox Studio &nbsp;·&nbsp; Lua Scripting</span>
+      <span class="line2" data-scramble="Scripter.">Scripter.</span>
     </h1>
     <p class="hero-bio">
       I'm a dedicated Roblox developer specializing in Lua scripting with 3 years of hands-on experience.
@@ -1074,6 +1092,26 @@ const observer = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
 },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── Hero scramble text ──
+(()=>{
+  const el=document.querySelector('[data-scramble]');
+  if(!el)return;
+  const final=el.dataset.scramble;
+  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&*?0123456789';
+  const totalFrames=40;
+  let frame=0;
+  const run=()=>{
+    el.textContent=final.split('').map((ch,i)=>{
+      if(ch==='.'||ch===' ')return ch;
+      const resolved=frame/totalFrames>(i/final.replace('.','').length)+.15;
+      return resolved?ch:chars[Math.floor(Math.random()*chars.length)];
+    }).join('');
+    if(++frame<=totalFrames)requestAnimationFrame(run);
+    else el.textContent=final;
+  };
+  setTimeout(run,600);
+})();
 
 // ── YouTube facade ──
 document.querySelectorAll('.yt-facade').forEach(el=>{
