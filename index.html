@@ -179,6 +179,7 @@ h1.hero-title{
   animation:drawLine .7s 1.55s cubic-bezier(.22,1,.36,1) forwards;
 }
 .hero-title .line2.glitch-on{
+  opacity:1;
   animation:glitch 6s 0s ease-in-out infinite;
 }
 @keyframes glitch{
@@ -1147,7 +1148,7 @@ window.scrollTo(0,0);
 // ── Glitch trigger after entrance ──
 setTimeout(()=>{
   const l=document.querySelector('.line2');
-  if(l)l.classList.add('glitch-on');
+  if(l){l.style.opacity='1';l.classList.add('glitch-on');}
 },2000);
 
 // ── Particles ──
