@@ -17,7 +17,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237c5cfc'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter%2Csans-serif' font-size='12' font-weight='900' fill='white'%3EJK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -44,7 +44,30 @@ body{
   line-height:1.6;
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
+  cursor:none;
 }
+
+/* ── CUSTOM CURSOR ── */
+.cursor{
+  position:fixed;width:10px;height:10px;
+  background:var(--accent2);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,opacity .2s;
+  mix-blend-mode:screen;
+  will-change:transform;
+}
+.cursor-ring{
+  position:fixed;width:36px;height:36px;
+  border:1.5px solid rgba(167,139,250,.55);
+  border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:width .25s,height .25s,border-color .25s;
+  will-change:transform;
+}
+.cursor.clicking{width:16px;height:16px;background:#fff}
+.cursor-ring.clicking{width:48px;height:48px;border-color:rgba(167,139,250,.9)}
+a:hover ~ .cursor,.cursor-ring:hover{width:50px;height:50px}
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:6px}
@@ -99,6 +122,12 @@ nav.scrolled{padding:.8rem 4rem;background:rgba(7,8,15,0.92)}
   position:relative;z-index:1;
   max-width:1300px;margin:0 auto;
   gap:4rem;
+  --mx:50%;--my:50%;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(700px circle at var(--mx) var(--my),rgba(124,92,252,.08),transparent 55%);
+  transition:background .08s;z-index:0;
 }
 .hero-left{flex:1;min-width:0}
 .hero-right{flex-shrink:0;display:flex;justify-content:flex-end}
@@ -119,42 +148,53 @@ h1.hero-title{
   line-height:1;
 }
 .hero-title .line1{
-  font-family:'Syne',sans-serif;
-  font-size:clamp(.85rem,1.6vw,1rem);
-  font-weight:600;
-  letter-spacing:.35em;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(.82rem,1.4vw,.95rem);
+  font-weight:500;
+  letter-spacing:.32em;
   text-transform:uppercase;
   color:var(--accent2);
   display:block;
-  margin-bottom:.9rem;
+  margin-bottom:1rem;
   opacity:0;
   animation:revealUp .6s .25s cubic-bezier(.22,1,.36,1) forwards;
 }
 .hero-title .line2{
-  font-family:'Syne',sans-serif;
-  font-size:clamp(4rem,9vw,8.5rem);
-  font-weight:800;
-  letter-spacing:-.04em;
-  line-height:.95;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(3.8rem,8.5vw,8rem);
+  font-weight:700;
+  letter-spacing:-.045em;
+  line-height:1;
   display:block;
-  background:linear-gradient(110deg,#fff 0%,#c4b5fd 45%,var(--accent) 100%);
+  background:linear-gradient(120deg,#ffffff 0%,#c4b5fd 38%,var(--accent) 70%,#38bdf8 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   opacity:0;
   animation:revealBlur .9s .55s cubic-bezier(.22,1,.36,1) forwards;
   position:relative;
 }
 .hero-title .line2::after{
-  content:'';display:block;height:3px;width:0;margin-top:.4rem;
-  background:linear-gradient(90deg,var(--accent),var(--accent2),transparent);
+  content:'';display:block;height:3px;width:0;margin-top:.5rem;
+  background:linear-gradient(90deg,var(--accent),#38bdf8,transparent);
   border-radius:2px;
   animation:drawLine .7s 1.55s cubic-bezier(.22,1,.36,1) forwards;
+}
+.hero-title .line2.glitch-on{
+  animation:glitch 6s 0s ease-in-out infinite;
+}
+@keyframes glitch{
+  0%,88%,100%{transform:translate(0);filter:none}
+  89%{transform:translate(-4px,1px);filter:hue-rotate(60deg) brightness(1.4)}
+  90%{transform:translate(4px,-2px)}
+  91%{transform:translate(-2px,2px);filter:none}
+  92%{transform:translate(2px,-1px)}
+  93%{transform:translate(0)}
 }
 @keyframes revealUp{
   from{opacity:0;transform:translateY(22px)}
   to{opacity:1;transform:translateY(0)}
 }
 @keyframes revealBlur{
-  from{opacity:0;transform:translateY(36px);filter:blur(10px)}
+  from{opacity:0;transform:translateY(36px);filter:blur(12px)}
   to{opacity:1;transform:translateY(0);filter:blur(0)}
 }
 @keyframes drawLine{to{width:55%}}
@@ -199,11 +239,14 @@ h1.hero-title{
 
 .avatar-wrap{
   width:280px;height:280px;border-radius:24px;
-  border:2px solid var(--border);
+  border:1.5px solid rgba(124,92,252,.4);
   overflow:hidden;background:var(--bg2);
   position:relative;flex-shrink:0;
-  box-shadow:0 0 60px rgba(124,92,252,.2),0 20px 60px rgba(0,0,0,.5);
-  animation:fadein 1s .2s ease both;
+  animation:fadein 1s .2s ease both, avatarPulse 3.5s 1.5s ease-in-out infinite;
+}
+@keyframes avatarPulse{
+  0%,100%{box-shadow:0 0 30px rgba(124,92,252,.25),0 0 60px rgba(124,92,252,.08),0 20px 60px rgba(0,0,0,.5)}
+  50%{box-shadow:0 0 55px rgba(167,139,250,.5),0 0 90px rgba(56,189,248,.12),0 20px 60px rgba(0,0,0,.5)}
 }
 .avatar-wrap::before{
   content:'';position:absolute;inset:0;
@@ -462,6 +505,8 @@ footer a{color:var(--accent2);text-decoration:none}
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
 
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
@@ -1061,6 +1106,50 @@ footer a{color:var(--accent2);text-decoration:none}
 </footer>
 
 <script>
+// ── Scroll restore to top ──
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+window.scrollTo(0,0);
+
+// ── Custom cursor ──
+(()=>{
+  const dot=document.getElementById('cursor');
+  const ring=document.getElementById('cursor-ring');
+  let rx=0,ry=0,mx=0,my=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    dot.style.left=mx+'px';dot.style.top=my+'px';
+  });
+  // ring lags for trail feel
+  (function lerp(){
+    rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(lerp);
+  })();
+  document.addEventListener('mousedown',()=>{dot.classList.add('clicking');ring.classList.add('clicking')});
+  document.addEventListener('mouseup',()=>{dot.classList.remove('clicking');ring.classList.remove('clicking')});
+  document.querySelectorAll('a,button,.yt-facade').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';ring.style.borderColor='rgba(167,139,250,.9)'});
+    el.addEventListener('mouseleave',()=>{ring.style.width='';ring.style.height='';ring.style.borderColor=''});
+  });
+})();
+
+// ── Hero mouse spotlight ──
+(()=>{
+  const hero=document.querySelector('.hero');
+  if(!hero)return;
+  hero.addEventListener('mousemove',e=>{
+    const r=hero.getBoundingClientRect();
+    hero.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    hero.style.setProperty('--my',(e.clientY-r.top)+'px');
+  });
+})();
+
+// ── Glitch trigger after entrance ──
+setTimeout(()=>{
+  const l=document.querySelector('.line2');
+  if(l)l.classList.add('glitch-on');
+},2000);
+
 // ── Particles ──
 (function(){
   const c = document.getElementById('particles');
