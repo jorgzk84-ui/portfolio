@@ -17,7 +17,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237c5cfc'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter%2Csans-serif' font-size='12' font-weight='900' fill='white'%3EJK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&family=Bebas+Neue&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -116,16 +116,32 @@ nav.scrolled{padding:.8rem 4rem;background:rgba(7,8,15,0.92)}
 
 h1.hero-title{
   font-size:clamp(3rem,6.5vw,5.5rem);
-  font-weight:900;line-height:1.03;
-  letter-spacing:-.04em;
+  font-weight:900;line-height:1.05;
+  letter-spacing:-.02em;
   margin-bottom:1.5rem;
   animation:fadein .7s .1s ease both;
 }
-.hero-title .line2{color:var(--accent2)}
-.hero-title .line3{
-  background:linear-gradient(135deg,var(--accent2),var(--accent3));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+.hero-title .line1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.5rem,7.5vw,6.5rem);
+  letter-spacing:.06em;
+  color:#fff;
+  line-height:1;
+  display:block;
 }
+.hero-title .line2{
+  font-family:'Pacifico',cursive;
+  font-size:clamp(2.8rem,6vw,5.2rem);
+  font-weight:400;
+  letter-spacing:.01em;
+  line-height:1.15;
+  display:block;
+  background:linear-gradient(120deg,var(--accent2) 0%,#c4b5fd 50%,var(--accent2) 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 4s linear infinite;
+}
+@keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
 
 .hero-bio{
   font-size:1.05rem;color:var(--muted);
@@ -451,7 +467,7 @@ footer a{color:var(--accent2);text-decoration:none}
   <div class="hero-left">
     <div class="badge"><span class="badge-dot"></span> Available for commissions</div>
     <h1 class="hero-title">
-      Roblox<br>
+      <span class="line1">Roblox</span>
       <span class="line2">Scripter.</span>
     </h1>
     <p class="hero-bio">
