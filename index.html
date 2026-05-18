@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JorgzK — Roblox Scripter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#07080f;
+  --bg2:#0c0e1a;
+  --accent:#7c5cfc;
+  --accent2:#a78bfa;
+  --accent3:#c4b5fd;
+  --text:#f0f0f8;
+  --muted:#7a82a0;
+  --card:rgba(255,255,255,0.03);
+  --card-hover:rgba(255,255,255,0.055);
+  --border:rgba(124,92,252,0.18);
+  --border-hover:rgba(124,92,252,0.5);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+/* ── BLOBS ── */
+.blob{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0;opacity:.13}
+.blob-1{width:700px;height:700px;background:radial-gradient(circle,#7c5cfc,#4f46e5);top:-250px;left:-200px;animation:blobdrift 18s ease-in-out infinite alternate}
+.blob-2{width:500px;height:500px;background:radial-gradient(circle,#5b21b6,#2e1065);bottom:10%;right:-150px;animation:blobdrift 22s ease-in-out infinite alternate-reverse}
+.blob-3{width:400px;height:400px;background:radial-gradient(circle,#4338ca,#1e1b4b);top:50%;left:40%;animation:blobdrift 15s ease-in-out infinite alternate}
+@keyframes blobdrift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(40px,60px) scale(1.08)}}
+
+/* ── PARTICLES ── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 4rem;
+  background:rgba(7,8,15,0.75);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:padding .3s;
+}
+nav.scrolled{padding:.8rem 4rem;background:rgba(7,8,15,0.92)}
+.logo{font-size:1.15rem;font-weight:900;letter-spacing:-.04em;color:#fff;text-decoration:none}
+.logo span{color:var(--accent2)}
+.nav-links{display:flex;align-items:center;gap:2.25rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.875rem;font-weight:500;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent2);transition:width .25s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.btn-hire{background:var(--accent);color:#fff !important;padding:.5rem 1.3rem;border-radius:8px;font-weight:700 !important;font-size:.85rem !important;transition:background .2s,transform .15s,box-shadow .2s !important}
+.btn-hire:hover{background:#6944e8 !important;transform:translateY(-1px);box-shadow:0 0 20px rgba(124,92,252,.4) !important}
+.btn-hire::after{display:none !important}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:7rem 4rem 4rem;
+  position:relative;z-index:1;
+  max-width:1300px;margin:0 auto;
+  gap:4rem;
+}
+.hero-left{flex:1;min-width:0}
+.hero-right{flex-shrink:0;display:flex;justify-content:flex-end}
+
+.badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(124,92,252,.1);border:1px solid rgba(124,92,252,.3);
+  border-radius:100px;padding:.35rem 1rem;
+  font-size:.78rem;font-weight:600;color:var(--accent3);
+  margin-bottom:1.75rem;width:fit-content;
+  animation:fadein .6s ease both;
+}
+.badge-dot{width:7px;height:7px;background:#34d399;border-radius:50%;box-shadow:0 0 8px #34d399;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+
+h1.hero-title{
+  font-size:clamp(3rem,6.5vw,5.5rem);
+  font-weight:900;line-height:1.03;
+  letter-spacing:-.04em;
+  margin-bottom:1.5rem;
+  animation:fadein .7s .1s ease both;
+}
+.hero-title .line2{color:var(--accent2)}
+.hero-title .line3{
+  background:linear-gradient(135deg,var(--accent2),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.hero-bio{
+  font-size:1.05rem;color:var(--muted);
+  max-width:540px;line-height:1.8;
+  margin-bottom:2.5rem;
+  animation:fadein .8s .2s ease both;
+}
+
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3.5rem;animation:fadein .8s .3s ease both}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),#5b21b6);
+  color:#fff;padding:.85rem 2rem;border-radius:10px;
+  font-weight:700;font-size:.95rem;text-decoration:none;
+  transition:transform .15s,box-shadow .2s;
+  box-shadow:0 4px 20px rgba(124,92,252,.35);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,92,252,.5)}
+
+.btn-outline{
+  background:transparent;color:var(--text);
+  padding:.85rem 2rem;border-radius:10px;
+  font-weight:600;font-size:.95rem;text-decoration:none;
+  border:1px solid var(--border);
+  transition:border-color .2s,transform .15s,background .2s;
+}
+.btn-outline:hover{border-color:var(--accent2);background:rgba(124,92,252,.07);transform:translateY(-2px)}
+
+.hero-stats{
+  display:flex;gap:2.5rem;flex-wrap:wrap;
+  padding-top:2.25rem;border-top:1px solid var(--border);
+  animation:fadein .9s .4s ease both;
+}
+.stat{}
+.stat-num{font-size:1.75rem;font-weight:900;color:var(--accent2);letter-spacing:-.04em;line-height:1}
+.stat-label{font-size:.78rem;color:var(--muted);margin-top:.3rem;font-weight:500}
+
+.avatar-wrap{
+  width:280px;height:280px;border-radius:24px;
+  border:2px solid var(--border);
+  overflow:hidden;background:var(--bg2);
+  position:relative;flex-shrink:0;
+  box-shadow:0 0 60px rgba(124,92,252,.2),0 20px 60px rgba(0,0,0,.5);
+  animation:fadein 1s .2s ease both;
+}
+.avatar-wrap::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(124,92,252,.15),transparent);
+  z-index:1;pointer-events:none;
+}
+#avatar-img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.avatar-placeholder{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:5rem;font-weight:900;color:var(--accent2);
+  background:linear-gradient(135deg,rgba(124,92,252,.1),rgba(79,70,229,.1));
+}
+
+/* ── SECTION SHARED ── */
+.section{position:relative;z-index:1;padding:6rem 4rem;max-width:1300px;margin:0 auto}
+
+.section-eyebrow{
+  font-size:.7rem;font-weight:800;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:.6rem;
+}
+.section-title{
+  font-size:clamp(1.75rem,3.5vw,2.75rem);
+  font-weight:900;letter-spacing:-.03em;
+  margin-bottom:.6rem;
+}
+.section-sub{color:var(--muted);max-width:480px;margin-bottom:3rem;font-size:.95rem;line-height:1.75}
+
+/* ── SERVICES ── */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:1.25rem;
+}
+.service-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1.75rem;transition:border-color .25s,background .25s,transform .25s;
+  cursor:default;
+}
+.service-card:hover{border-color:var(--border-hover);background:var(--card-hover);transform:translateY(-4px)}
+.service-icon{
+  width:46px;height:46px;border-radius:12px;
+  background:rgba(124,92,252,.12);border:1px solid rgba(124,92,252,.25);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1rem;color:var(--accent2);
+}
+.service-icon svg{width:22px;height:22px;stroke:var(--accent2);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.service-card h3{font-size:.95rem;font-weight:700;margin-bottom:.5rem;color:var(--text)}
+.service-card p{font-size:.845rem;color:var(--muted);line-height:1.65}
+
+/* ── SKILLS TAGS ── */
+.skills-cloud{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.skill-tag{
+  background:rgba(124,92,252,.1);border:1px solid rgba(124,92,252,.25);
+  border-radius:100px;padding:.3rem .85rem;
+  font-size:.775rem;font-weight:600;color:var(--accent3);
+  transition:background .2s,border-color .2s;
+}
+.skill-tag:hover{background:rgba(124,92,252,.2);border-color:rgba(124,92,252,.5)}
+
+/* ── WORK ── */
+.work-featured{
+  background:var(--card);border:1px solid var(--border);border-radius:18px;
+  overflow:hidden;display:grid;grid-template-columns:55% 45%;
+  margin-bottom:2rem;transition:border-color .25s;
+  align-items:stretch;
+}
+.work-featured:hover{border-color:var(--border-hover)}
+
+.work-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:1.5rem;
+}
+
+.project-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;transition:border-color .25s,transform .25s;
+  display:flex;flex-direction:column;
+}
+.project-card:hover{border-color:var(--border-hover);transform:translateY(-4px)}
+
+/* YouTube facade */
+.yt-facade{
+  position:relative;overflow:hidden;cursor:pointer;
+  background:#000;
+}
+.work-featured .yt-facade{width:100%;height:100%;min-height:340px;display:block}
+.project-card .yt-facade{aspect-ratio:16/9;width:100%}
+
+.yt-thumb{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .4s,opacity .3s;position:absolute;inset:0}
+.yt-facade:hover .yt-thumb{transform:scale(1.04);opacity:.85}
+
+.yt-play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.25);transition:background .25s;
+}
+.yt-facade:hover .yt-play{background:rgba(0,0,0,.1)}
+.play-btn{
+  width:60px;height:60px;background:rgba(255,255,255,.95);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .2s,box-shadow .2s;box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.yt-facade:hover .play-btn{transform:scale(1.1);box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.play-btn svg{width:22px;height:22px;margin-left:4px}
+.yt-facade iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+
+.project-info{padding:1.75rem}
+.work-featured .project-info{padding:2.5rem;display:flex;flex-direction:column;justify-content:center}
+
+.project-tag{
+  display:inline-block;background:rgba(124,92,252,.15);color:var(--accent3);
+  border-radius:6px;padding:.2rem .65rem;
+  font-size:.72rem;font-weight:700;margin-bottom:.85rem;
+  letter-spacing:.05em;text-transform:uppercase;width:fit-content;
+}
+.project-info h3{
+  font-size:1.3rem;font-weight:800;letter-spacing:-.025em;
+  margin-bottom:.75rem;color:var(--accent2);line-height:1.25;
+}
+.work-featured .project-info h3{font-size:1.75rem}
+.project-info p{font-size:.875rem;color:var(--muted);line-height:1.75;margin-bottom:1rem}
+.work-featured .project-info p{font-size:.95rem}
+
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:.4rem;margin-top:.25rem}
+.feat-list li{
+  font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:.6rem;
+}
+.feat-list li::before{
+  content:'';width:5px;height:5px;background:var(--accent);
+  border-radius:50%;flex-shrink:0;
+}
+
+/* ── REVIEWS ── */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.review-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1.75rem;transition:border-color .25s,transform .25s;
+}
+.review-card:hover{border-color:var(--border-hover);transform:translateY(-4px)}
+.review-stars{display:flex;gap:.2rem;margin-bottom:1rem}
+.star{font-size:1rem;color:#f59e0b}
+.half-star{font-size:.85rem;color:#f59e0b;opacity:.75}
+.review-text{
+  font-size:.9rem;color:var(--text);line-height:1.75;
+  margin-bottom:1.25rem;font-style:italic;
+}
+.review-text::before{content:'\201C';font-size:2.5rem;color:var(--accent);font-style:normal;line-height:1;display:block;margin-bottom:.25rem;font-family:Georgia,serif}
+.reviewer{display:flex;align-items:center;gap:.75rem}
+.reviewer-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),#5b21b6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:800;color:#fff;flex-shrink:0;
+}
+.reviewer-name{font-size:.875rem;font-weight:700;color:var(--text)}
+.reviewer-date{font-size:.75rem;color:var(--muted)}
+.review-score{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);
+  border-radius:100px;padding:.2rem .6rem;
+  font-size:.72rem;font-weight:700;color:#fbbf24;
+  margin-bottom:.85rem;width:fit-content;
+}
+
+/* ── CONTACT ── */
+.contact-wrap{max-width:680px;margin:0 auto;text-align:center}
+.contact-wrap .section-title{text-align:center}
+.contact-wrap .section-sub{margin:0 auto 2.5rem;text-align:center}
+.contact-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:2.75rem;margin-top:1rem;
+}
+.contact-methods{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.75rem}
+.contact-link{
+  display:flex;align-items:center;gap:1rem;
+  background:rgba(255,255,255,.025);border:1px solid var(--border);
+  border-radius:12px;padding:1.1rem 1.4rem;
+  text-decoration:none;color:var(--text);text-align:left;
+  transition:border-color .2s,background .2s,transform .15s;
+}
+.contact-link:hover{border-color:var(--border-hover);background:rgba(124,92,252,.08);transform:translateY(-2px)}
+.contact-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(124,92,252,.12);border:1px solid rgba(124,92,252,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;
+}
+.contact-meta-label{font-size:.72rem;color:var(--muted);margin-bottom:.15rem;font-weight:500}
+.contact-meta-value{font-size:.95rem;font-weight:700;color:var(--text)}
+.contact-note{font-size:.8rem;color:var(--muted);line-height:1.65}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid rgba(255,255,255,.06);
+  padding:1.75rem 4rem;text-align:center;
+  color:var(--muted);font-size:.8rem;
+  position:relative;z-index:1;
+}
+footer a{color:var(--accent2);text-decoration:none}
+
+/* ── ANIMATIONS ── */
+@keyframes fadein{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── MINI GRID ── */
+.work-divider{
+  display:flex;align-items:center;gap:1.25rem;
+  margin:3rem 0 1.75rem;
+}
+.work-divider h3{font-size:1rem;font-weight:700;color:var(--text);white-space:nowrap}
+.work-divider-line{flex:1;height:1px;background:var(--border)}
+.work-count-badge{
+  background:rgba(124,92,252,.1);border:1px solid var(--border);
+  border-radius:100px;padding:.25rem .85rem;
+  font-size:.72rem;font-weight:700;color:var(--accent2);white-space:nowrap;
+}
+.work-mini-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;
+}
+.project-mini{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem;transition:border-color .25s,transform .2s;
+}
+.project-mini:hover{border-color:var(--border-hover);transform:translateY(-3px)}
+.project-mini-icon{
+  width:34px;height:34px;border-radius:8px;
+  background:rgba(124,92,252,.1);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:.75rem;
+}
+.project-mini-icon svg{width:15px;height:15px;stroke:var(--accent2);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.project-mini .project-tag{font-size:.65rem;margin-bottom:.5rem}
+.project-mini h4{font-size:.845rem;font-weight:700;color:var(--text);margin-bottom:.3rem;line-height:1.3}
+.project-mini p{font-size:.755rem;color:var(--muted);line-height:1.55}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:1rem 1.75rem}
+  nav.scrolled{padding:.8rem 1.75rem}
+  .nav-links{gap:1.25rem}
+  .hero{flex-direction:column;padding:6rem 1.75rem 3rem;gap:2.5rem}
+  .hero-right{justify-content:center}
+  .avatar-wrap{width:200px;height:200px}
+  .section{padding:4rem 1.75rem}
+  .work-featured{grid-template-columns:1fr}
+  .work-grid{grid-template-columns:1fr}
+  .work-mini-grid{grid-template-columns:repeat(2,1fr)}
+  .reviews-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  nav .nav-links li:not(:last-child){display:none}
+  .hero-stats{gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<canvas id="particles"></canvas>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="#" class="logo">Jorgz<span>K</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact" class="btn-hire">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section style="position:relative;z-index:1">
+<div class="hero">
+  <div class="hero-left">
+    <div class="badge"><span class="badge-dot"></span> Available for commissions</div>
+    <h1 class="hero-title">
+      Roblox<br>
+      <span class="line2">Scripter.</span>
+    </h1>
+    <p class="hero-bio">
+      I'm a dedicated Roblox developer specializing in Lua scripting with 3 years of hands-on experience.
+      I focus on building efficient, scalable gameplay systems with clean, maintainable code —
+      OOP architecture, server-authoritative design, and performance you can trust.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Get a Quote</a>
+      <a href="#work" class="btn-outline">View My Work</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">40+</div>
+        <div class="stat-label">Projects Built</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">OOP</div>
+        <div class="stat-label">Architecture First</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Server-Authoritative</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="avatar-wrap">
+      <img id="avatar-img" src="" alt="JorgzK" style="display:none">
+      <div class="avatar-placeholder" id="avatar-placeholder">JK</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section class="section" id="services">
+  <div class="section-eyebrow reveal">What I Do</div>
+  <h2 class="section-title reveal">Services</h2>
+  <p class="section-sub reveal">Everything your game needs — scalable, maintainable, and exploit-resistant.</p>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/></svg>
+      </div>
+      <h3>Game Systems</h3>
+      <p>Combat, movement, inventory, pets, round-based gameplay, matchmaking, leaderboards — modular and built to scale.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+      </div>
+      <h3>Admin Systems</h3>
+      <p>Custom admin panels, permission systems, moderation tools, and command frameworks for full server control.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <h3>Anti-Cheat</h3>
+      <p>Server-authoritative validation, exploit detection, and sanity checks to keep your game fair and secure.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <h3>Networking</h3>
+      <p>Clean client/server separation using Knit and ByteNet for type-safe, predictable, scalable communication.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
+      <h3>Data Systems</h3>
+      <p>DataStore persistence, player data management, leaderboards, donation systems, and safe error handling.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      </div>
+      <h3>UI Scripting</h3>
+      <p>I script GUIs and UI logic — animations, state management, reactive interfaces, and real-time feedback.</p>
+    </div>
+  </div>
+  <div class="reveal" style="margin-top:2.5rem">
+    <p style="font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem">Also worked on</p>
+    <div class="skills-cloud">
+      <span class="skill-tag">Tower Defense</span>
+      <span class="skill-tag">Squid Game Systems</span>
+      <span class="skill-tag">Minigames</span>
+      <span class="skill-tag">Character Customization</span>
+      <span class="skill-tag">Boat Systems</span>
+      <span class="skill-tag">Gun & Weapon Systems</span>
+      <span class="skill-tag">Spectating</span>
+      <span class="skill-tag">Loading Screens</span>
+      <span class="skill-tag">Custom Frameworks</span>
+      <span class="skill-tag">Performance Optimization</span>
+      <span class="skill-tag">Bug Fixes</span>
+      <span class="skill-tag">OOP Architecture</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WORK ══ -->
+<section class="section" id="work">
+  <div class="section-eyebrow reveal">Portfolio</div>
+  <h2 class="section-title reveal">Recent Work</h2>
+  <p class="section-sub reveal">Real systems. Real code. Real results.</p>
+
+  <!-- Featured -->
+  <div class="work-featured reveal">
+    <div class="yt-facade" data-id="G3bxENIRaLU">
+      <img class="yt-thumb" src="https://img.youtube.com/vi/G3bxENIRaLU/maxresdefault.jpg" alt="OOP Combat System" loading="lazy">
+      <div class="yt-play">
+        <div class="play-btn">
+          <svg viewBox="0 0 24 24" fill="#1a1a2e"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="project-info">
+      <span class="project-tag">⭐ Featured · Game System</span>
+      <h3>OOP-Based Combat System</h3>
+      <p>A modular, state-driven combat framework built for scalability and responsiveness. Featuring combo chains, ability systems, blocking and parrying logic with server-authoritative hit detection and clean client/server separation.</p>
+      <ul class="feat-list">
+        <li>Combo chains &amp; ability system</li>
+        <li>Block &amp; parry logic</li>
+        <li>Server-authoritative hit detection</li>
+        <li>Clean OOP architecture</li>
+        <li>Reusable modular design</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Video Grid -->
+  <div class="work-grid">
+    <div class="project-card reveal">
+      <div class="yt-facade" data-id="KFEe-_KBWro">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/KFEe-_KBWro/maxresdefault.jpg" alt="Knit & ByteNet Framework" loading="lazy">
+        <div class="yt-play"><div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1a2e"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Networking</span>
+        <h3>Knit &amp; ByteNet Framework</h3>
+        <p>Combined Knit and ByteNet — Knit manages high-level service/controller structure while ByteNet handles type-safe, low-level networking with server-authoritative validation.</p>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="yt-facade" data-id="FbRJ_0etAKE">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/FbRJ_0etAKE/maxresdefault.jpg" alt="OOP Movement System" loading="lazy">
+        <div class="yt-play"><div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1a2e"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Game System</span>
+        <h3>OOP-Based Movement System</h3>
+        <p>State-driven movement with walking, running, idle, directional dashes, and wall-running — fully configurable with clean OOP architecture for easy expansion.</p>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="yt-facade" data-id="iEyzAu6U0_A">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/iEyzAu6U0_A/maxresdefault.jpg" alt="Glider & Grappler" loading="lazy">
+        <div class="yt-play"><div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1a2e"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Game System</span>
+        <h3>Glider &amp; Grappler System</h3>
+        <p>Range-validated grapples, replicated rope visuals, camera FOV effects, and physics-based glider flight — all cleanly separated across client and server.</p>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="yt-facade" data-id="i9HfWo5UkAY">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/i9HfWo5UkAY/maxresdefault.jpg" alt="Pickup & Carry Boat System" loading="lazy">
+        <div class="yt-play"><div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1a2e"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Game System</span>
+        <h3>Pickup &amp; Carry Boat System</h3>
+        <p>Server-authoritative pickup and carry — players collect and deposit items onto boats for rewards. Multiple carry modes, real-time UI feedback, exploit-safe validation.</p>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="yt-facade" data-id="9dJvN9mCX5M">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/9dJvN9mCX5M/maxresdefault.jpg" alt="Donation & Leaderboard" loading="lazy">
+        <div class="yt-play"><div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1a2e"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Game System</span>
+        <h3>Donation &amp; Leaderboard System</h3>
+        <p>Real-time donation tracking with animated Top 3 podiums, auto-updating leaderboards, secure DataStore persistence, and admin controls for live management.</p>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="yt-facade" data-id="tZkHz4KlxAk">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/tZkHz4KlxAk/maxresdefault.jpg" alt="Chess System" loading="lazy">
+        <div class="yt-play"><div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1a2e"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Minigame</span>
+        <h3>Chess System</h3>
+        <p>Fully functional chess — complete piece logic, turn-based multiplayer, legal move validation, and clean game state management built in Roblox Studio.</p>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="yt-facade" data-id="rFptjeCe-tY">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/rFptjeCe-tY/maxresdefault.jpg" alt="Checkers System" loading="lazy">
+        <div class="yt-play"><div class="play-btn"><svg viewBox="0 0 24 24" fill="#1a1a2e"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Minigame</span>
+        <h3>Checkers System</h3>
+        <p>Complete checkers with jump logic, chain captures, king promotion, and competitive turn-based play — clean server architecture throughout.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- More projects -->
+  <div class="work-divider reveal">
+    <h3>More Systems</h3>
+    <div class="work-divider-line"></div>
+    <span class="work-count-badge">35+ additional projects</span>
+  </div>
+
+  <div class="work-mini-grid">
+
+    <!-- Combat & Action -->
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Gun System</h4>
+      <p>FPS/TPS shooting with server-authoritative hit registration, recoil, and magazine management.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Melee Weapon System</h4>
+      <p>Hitbox-based melee with combo logic, knockback physics, and configurable weapon stats.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Stamina &amp; Ability System</h4>
+      <p>Energy management with cooldown timers, ability unlocking, and stat-based regeneration.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="11" x2="23" y2="11"/><line x1="20" y1="8" x2="20" y2="14"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Ragdoll System</h4>
+      <p>Physics-based death and knockback using BodyVelocity with configurable force multipliers.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Hitbox System</h4>
+      <p>Precise spatial hitbox detection using Region3 and Magnitude checks for lag-tolerant combat.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Kill Effect System</h4>
+      <p>Elimination VFX, audio cues, and kill feed with configurable visual feedback per weapon.</p>
+    </div>
+
+    <!-- Game Modes -->
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-5.13"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Round-Based System</h4>
+      <p>Lobby countdown, active round management, and end-screen state machine with DataStore integration.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="5" rx="1"/><path d="M4 7v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7"/><line x1="12" y1="7" x2="12" y2="22"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Tower Defense System</h4>
+      <p>Wave spawning, waypoint path navigation, tower placement, and upgrade logic with economy balancing.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="11" x2="15.01" y2="11"/><line x1="17" y1="13" x2="17.01" y2="13"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Squid Game Mode</h4>
+      <p>Multi-stage elimination with unique rules per round, spectating integration, and winner broadcast.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Matchmaking Queue</h4>
+      <p>Fair team balancing with skill-based matching, server reservation, and queue timeout handling.</p>
+    </div>
+
+    <!-- Player Systems -->
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Inventory System</h4>
+      <p>Item storage, stacking, equipping, dropping, and drag-and-drop slots with serialized DataStore saves.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Pet System</h4>
+      <p>Following AI, stat boosts, rarity tiers, and evolution with persistent DataStore saves.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Buff &amp; Debuff System</h4>
+      <p>Timed status effects with stacking priority, immunity frames, and visual indicators.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" stroke="none"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" stroke="none"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" stroke="none"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Character Customization</h4>
+      <p>Outfit selection, color picker, and accessory layering with R15/R6 support and DataStore persistence.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Achievement System</h4>
+      <p>Progress tracking across multiple metrics with unlock notifications and persistent storage.</p>
+    </div>
+
+    <!-- World & Environment -->
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Checkpoint &amp; Respawn</h4>
+      <p>Save points with position restoration, lives system, and configurable respawn delay.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Zone Detection System</h4>
+      <p>Region enter/exit events using spatial queries with configurable effect triggers and debounce.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Spectator System</h4>
+      <p>Follow-cam after death with player cycling, smooth lerp transitions, and overlay HUD.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="6" height="6"/><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="9" y1="2" x2="9" y2="6"/><line x1="15" y1="2" x2="15" y2="6"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/><line x1="2" y1="9" x2="6" y2="9"/><line x1="2" y1="15" x2="6" y2="15"/><line x1="18" y1="9" x2="22" y2="9"/><line x1="18" y1="15" x2="22" y2="15"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>NPC AI System</h4>
+      <p>Patrol, aggro detection, line-of-sight checks, and basic melee combat behavior.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Proximity Interaction</h4>
+      <p>Range-based interaction prompts with cooldowns, animations, and server-side validation.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Cutscene System</h4>
+      <p>Scripted camera sequences with lerp transitions, letterbox bars, and event triggers.</p>
+    </div>
+
+    <!-- Economy -->
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Shop &amp; DevProduct System</h4>
+      <p>In-game store with Gamepass, DevProduct, and Robux purchase integration with receipt handling.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Currency System</h4>
+      <p>Multiple currencies with transaction logging, anti-exploit validation, and DataStore safety.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Daily Reward System</h4>
+      <p>Login streak tracking with escalating reward tiers, animated claim UI, and DataStore persistence.</p>
+    </div>
+
+    <!-- Backend -->
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      <span class="project-tag">Admin</span>
+      <h4>Admin Command System</h4>
+      <p>Full admin panel with ban, kick, teleport, warn, and role-based permission tiers.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+      <span class="project-tag">Anti-Cheat</span>
+      <h4>Anti-Exploit Framework</h4>
+      <p>Server-side sanity checks for speed, position, damage, and currency exploits with auto-kick.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+      <span class="project-tag">Data</span>
+      <h4>DataStore Manager</h4>
+      <p>Retry-safe player data persistence with version migration, backup keys, and error recovery.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+      <span class="project-tag">Networking</span>
+      <h4>Remote Event Framework</h4>
+      <p>Structured RemoteEvent/Function organization with rate limiting and validation middleware.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <span class="project-tag">Networking</span>
+      <h4>Server Hub &amp; Teleport</h4>
+      <p>Cross-server teleportation with reserved server management and transition loading screens.</p>
+    </div>
+
+    <!-- UI/UX -->
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <span class="project-tag">UI</span>
+      <h4>Loading Screen</h4>
+      <p>Animated progress bar with tip cycling, custom branding, and asset preloading logic.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+      <span class="project-tag">UI</span>
+      <h4>Notification System</h4>
+      <p>Toast alerts and modal popups with queue management, priority levels, and animations.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <span class="project-tag">UI</span>
+      <h4>Dialogue &amp; NPC System</h4>
+      <p>Branching NPC conversations with typewriter effect, choice logic, and quest hook support.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+      <span class="project-tag">UI</span>
+      <h4>Tutorial System</h4>
+      <p>Step-by-step onboarding with arrow indicators, highlight overlays, and skip logic.</p>
+    </div>
+
+    <div class="project-mini reveal">
+      <div class="project-mini-icon"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
+      <span class="project-tag">Game System</span>
+      <h4>Sound Manager</h4>
+      <p>Dynamic music layers, positional SFX, and audio pooling for consistent performance.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ REVIEWS ══ -->
+<section class="section" id="reviews">
+  <div class="section-eyebrow reveal">Client Feedback</div>
+  <h2 class="section-title reveal">What Clients Say</h2>
+  <p class="section-sub reveal">Real reviews from real projects.</p>
+  <div class="reviews-grid">
+
+    <div class="review-card reveal">
+      <div class="review-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="review-text">@Jorgz set the foundation for our movement and combat systems for our PvP game. Gave us a solid platform to build on, plus great input and connections throughout the process. Will definitely keep working with them.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">D</div>
+        <div>
+          <div class="reviewer-name">Dandelion</div>
+          <div class="reviewer-date">Nov 23, 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="review-text">W, helped me with my game! Thank you bro! Will come back for sure!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">C</div>
+        <div>
+          <div class="reviewer-name">CR3Z</div>
+          <div class="reviewer-date">Nov 23, 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-score">7.5 / 10</div>
+      <p class="review-text">Fast service, great communications. Can handle most tasks thrown their way.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">S</div>
+        <div>
+          <div class="reviewer-name">SauceMaster1364</div>
+          <div class="reviewer-date">Nov 23, 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="review-text">@Jorgz did a great job with the state machine refactor and delivered a clean config module that makes tweaking values really easy. He fixed the issues I needed addressed and was communicative throughout the process. Would work with again.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">B</div>
+        <div>
+          <div class="reviewer-name">bricko</div>
+          <div class="reviewer-date">Recent</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section class="section" id="contact">
+  <div class="contact-wrap">
+    <div class="section-eyebrow reveal">Let's Work Together</div>
+    <h2 class="section-title reveal">Get in Touch</h2>
+    <p class="section-sub reveal">Describe your project and I'll come back with a quote. I typically respond within 24 hours.</p>
+    <div class="contact-card reveal">
+      <div class="contact-methods">
+        <a href="https://discordapp.com/users/imjorgz" class="contact-link" target="_blank" rel="noopener">
+          <div class="contact-icon">💬</div>
+          <div>
+            <div class="contact-meta-label">Discord — fastest response</div>
+            <div class="contact-meta-value">imjorgz</div>
+          </div>
+        </a>
+        <a href="mailto:foreverbiz04@gmail.com" class="contact-link">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-meta-label">Email</div>
+            <div class="contact-meta-value">foreverbiz04@gmail.com</div>
+          </div>
+        </a>
+      </div>
+      <p class="contact-note">Include your project details, what systems you need, and your budget range for the fastest response.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p>&copy; 2026 JorgzK &nbsp;·&nbsp; Roblox Scripter &nbsp;·&nbsp;
+    <a href="https://www.roblox.com/users/10194459847/profile" target="_blank" rel="noopener">Roblox Profile</a>
+  </p>
+</footer>
+
+<script>
+// ── Particles ──
+(function(){
+  const c = document.getElementById('particles');
+  const ctx = c.getContext('2d');
+  let W, H, pts = [];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+  function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.2+.3;this.vx=(Math.random()-.5)*.25;this.vy=(Math.random()-.5)*.25;this.a=Math.random()*.5+.1}
+  function init(){resize();pts=Array.from({length:100},()=>new Pt())}
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(167,139,250,${p.a})`;ctx.fill();
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    });
+    requestAnimationFrame(tick);
+  }
+  addEventListener('resize',resize);
+  init();tick();
+})();
+
+// ── Nav scroll ──
+const nav = document.getElementById('nav');
+addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>60)},{passive:true});
+
+// ── Scroll reveal ──
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── YouTube facade ──
+document.querySelectorAll('.yt-facade').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const id=el.dataset.id;
+    const iframe=document.createElement('iframe');
+    iframe.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+    iframe.allow='autoplay;encrypted-media;fullscreen';
+    iframe.allowFullscreen=true;
+    el.innerHTML='';
+    el.appendChild(iframe);
+  });
+});
+
+// ── Roblox avatar ──
+(async()=>{
+  try{
+    const r=await fetch('https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=10194459847&size=420x420&format=Png&isCircular=true');
+    const d=await r.json();
+    const url=d?.data?.[0]?.imageUrl;
+    if(url){
+      const img=document.getElementById('avatar-img');
+      img.onload=()=>{img.style.display='block';document.getElementById('avatar-placeholder').style.display='none'};
+      img.src=url;
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
