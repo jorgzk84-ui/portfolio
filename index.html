@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JorgzK — Roblox Scripter</title>
+<title>JorgzK84 — Roblox Scripter</title>
+<meta name="description" content="Roblox Lua scripter with 3+ years of experience. OOP architecture, server-authoritative systems, anti-cheat, admin panels and 40+ projects built.">
+<meta property="og:title" content="JorgzK84 — Roblox Scripter">
+<meta property="og:description" content="3+ years of experience building clean, scalable Roblox systems. OOP combat, movement, anti-cheat, admin panels and 40+ projects.">
+<meta property="og:image" content="https://jorgzk84-ui.github.io/portfolio/og.png">
+<meta property="og:url" content="https://jorgzk84-ui.github.io/portfolio/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="JorgzK84 — Roblox Scripter">
+<meta name="twitter:description" content="3+ years of experience building clean, scalable Roblox systems. 40+ projects built.">
+<meta name="twitter:image" content="https://jorgzk84-ui.github.io/portfolio/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237c5cfc'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter%2Csans-serif' font-size='12' font-weight='900' fill='white'%3EJK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -61,8 +72,14 @@ nav{
   transition:padding .3s;
 }
 nav.scrolled{padding:.8rem 4rem;background:rgba(7,8,15,0.92)}
-.logo{font-size:1.15rem;font-weight:900;letter-spacing:-.04em;color:#fff;text-decoration:none}
-.logo span{color:var(--accent2)}
+.logo{
+  font-size:1.2rem;font-weight:900;letter-spacing:-.04em;text-decoration:none;
+  background:linear-gradient(90deg,#fff 0%,var(--accent2) 40%,#c4b5fd 70%,#fff 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:logoshine 4s linear infinite;
+}
+@keyframes logoshine{0%{background-position:0% center}100%{background-position:200% center}}
 .nav-links{display:flex;align-items:center;gap:2.25rem;list-style:none}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:.875rem;font-weight:500;transition:color .2s;position:relative}
 .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent2);transition:width .25s}
@@ -416,7 +433,7 @@ footer a{color:var(--accent2);text-decoration:none}
 
 <!-- ══ NAV ══ -->
 <nav id="nav">
-  <a href="#" class="logo">Jorgz<span>K</span></a>
+  <a href="#" class="logo">Jorgz</a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#work">Work</a></li>
@@ -1001,7 +1018,7 @@ footer a{color:var(--accent2);text-decoration:none}
 
 <!-- ══ FOOTER ══ -->
 <footer>
-  <p>&copy; 2026 JorgzK &nbsp;·&nbsp; Roblox Scripter &nbsp;·&nbsp;
+  <p>&copy; 2026 JorgzK84 &nbsp;·&nbsp; Roblox Scripter &nbsp;·&nbsp;
     <a href="https://www.roblox.com/users/10194459847/profile" target="_blank" rel="noopener">Roblox Profile</a>
   </p>
 </footer>
